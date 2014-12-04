@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 
 from django.template import (
     loader,
-    RequestContext,
+    Context,
 )
 from django.utils.encoding import iri_to_uri
 
@@ -65,7 +65,7 @@ class EndlessPage(utils.UnicodeMixin):
             template_name = 'endless/page_link.html'
         template = _template_cache.setdefault(
             template_name, loader.get_template(template_name))
-        return template.render(RequestContext(self._request, context))
+        return template.render(Context(context))
 
 
 class PageList(utils.UnicodeMixin):
@@ -169,7 +169,7 @@ class PageList(utils.UnicodeMixin):
                     pages.append(self.last_as_arrow())
                 else:
                     pages.append(self[item])
-            context = RequestContext(self._request, {'pages': pages})
+            context = Context({'pages': pages})
             return loader.render_to_string('endless/show_pages.html', context)
         return ''
 
